@@ -3,7 +3,7 @@ function ConvertHandler() {
   this.getNum = function(input) {
     let result;
   
-    const regex = /^(\d+(\.\d+)?(\/\d+(\.\d+)?)?)?([a-zA-Z]+)$/;
+    const regex = /^(\d+(\.\d+)?(\/\d+(\.\d+)?)?)?([a-zA-Z]+)?$/;
     const match = input.match(regex);
   
     if (match) {
@@ -12,16 +12,26 @@ function ConvertHandler() {
   
       if (numPart) {
         if (numPart.includes('/')) {
-          const [numerator, denominator] = numPart.split('/');
-          result = parseFloat(numerator) / parseFloat(denominator);
+          const parts = numPart.split('/');
+          
+          if (parts.length > 2) {
+            result = "invalid number";
+          } else {
+            const numerator = parseFloat(parts[0]);
+            const denominator = parseFloat(parts[1]);
+            if (isNaN(numerator) || isNaN(denominator)) {
+              result = "invalid number";
+            } else {
+              result = numerator / denominator;
+            }
+          }
         } else {
           result = parseFloat(numPart);
         }
       } else {
-      
-        result = "invalid number";
+        result = 1;
       }
-  
+      
       if (isNaN(result)) {
         result = "invalid number";
       }
@@ -99,7 +109,7 @@ function ConvertHandler() {
       result = initNum / lbsToKg;
     }
   
-    return result;
+    return result.toFixed(5);
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
@@ -118,7 +128,7 @@ function ConvertHandler() {
       return "invalid unit";
     }
 
-    return `${initNum} ${unitNames[initUnit] || initUnit} converts to ${returnNum.toFixed(5)} ${unitNames[returnUnit] || returnUnit}`;
+    return `${initNum} ${unitNames[initUnit] || initUnit} converts to ${returnNum} ${unitNames[returnUnit] || returnUnit}`;
   };
   
 }

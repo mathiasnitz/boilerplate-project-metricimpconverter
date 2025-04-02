@@ -57,7 +57,7 @@ suite('Functional Tests', function() {
           .query({ input: 'kg' })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, 'invalid number');
+            assert.equal(res.text, '{"initNum":1,"initUnit":"kg","returnNum":"2.20462","returnUnit":"lbs","string":"1 kilograms converts to 2.20462 pounds"}');
             done();
           });
       });
