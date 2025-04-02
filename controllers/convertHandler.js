@@ -26,10 +26,19 @@ function ConvertHandler() {
   
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
+    const LToGal = 0.26417;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     let result;
     
+    if(initUnit == "gal" || "gallon" || "gallons")
+    {
+      result = initNum * galToL;
+    } else if(initUnit == "L" || "liter" || "liters")
+    {
+      result = initNum * LToGal;
+    }
+
     return result;
   };
   
