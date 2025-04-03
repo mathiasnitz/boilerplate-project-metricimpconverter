@@ -13,7 +13,7 @@ suite('Functional Tests', function() {
           .query({ input: '10L' })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.include(res.text, '10 liters converts to');
+            assert.include(res.text, '10 L converts to');
             done();
           });
       });
@@ -57,7 +57,7 @@ suite('Functional Tests', function() {
           .query({ input: 'kg' })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, '{"initNum":1,"initUnit":"kg","returnNum":"2.20462","returnUnit":"lbs","string":"1 kilograms converts to 2.20462 pounds"}');
+            assert.equal(res.text, '{"initNum":1,"initUnit":"kg","returnNum":2.20462,"returnUnit":"lbs","string":"1 kilograms converts to 2.20462 pounds"}');
             done();
           });
       });

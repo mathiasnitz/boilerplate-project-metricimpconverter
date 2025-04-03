@@ -45,32 +45,32 @@ function ConvertHandler() {
   this.getUnit = function(input) {
     const unitRegex = /[a-zA-Z]+$/;
     const match = input.match(unitRegex);
-  
+
     if (match) {
-      const unit = match[0].toLowerCase();
-      
-      const validUnits = ['gal', 'gallon', 'gallons', 'l', 'liter', 'liters', 'mi', 'mile', 'miles', 'km', 'kilometer', 'kilometers', 'lbs', 'pound', 'pounds', 'kg', 'kilogram', 'kilograms'];
-      
-      if (validUnits.includes(unit)) {
-        return unit;
-      }
+        let unit = match[0].toLowerCase();
+
+        const validUnits = ['gal', 'gallon', 'gallons', 'l', 'liter', 'liters', 'mi', 'mile', 'miles', 'km', 'kilometer', 'kilometers', 'lbs', 'pound', 'pounds', 'kg', 'kilogram', 'kilograms'];
+
+        if (validUnits.includes(unit)) {
+            return unit === 'l' ? 'L' : unit;
+        }
     }
-    
+
     return "invalid unit";
-  };
+};
   
   this.getReturnUnit = function(initUnit) {
     const unitMap = {
-      'gal': 'l', 'gallon': 'l', 'gallons': 'liters',
-      'l': 'gal', 'liter': 'gal', 'liters': 'gallons',
-      'mi': 'km', 'mile': 'km', 'miles': 'kilometers',
-      'km': 'mi', 'kilometer': 'mi', 'kilometers': 'miles',
-      'lbs': 'kg', 'pound': 'kg', 'pounds': 'kilograms',
-      'kg': 'lbs', 'kilogram': 'lbs', 'kilograms': 'pounds'
+        'gal': 'L', 'gallon': 'L', 'gallons': 'L',
+        'L': 'gal', 'liter': 'gal', 'liters': 'gal',
+        'mi': 'km', 'mile': 'km', 'miles': 'km',
+        'km': 'mi', 'kilometer': 'mi', 'kilometers': 'mi',
+        'lbs': 'kg', 'pound': 'kg', 'pounds': 'kg',
+        'kg': 'lbs', 'kilogram': 'lbs', 'kilograms': 'lbs'
     };
-  
+
     return unitMap[initUnit] || null;
-  };
+};
 
   this.spellOutUnit = function(unit) {
     let result;
@@ -89,35 +89,35 @@ function ConvertHandler() {
   
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
-    const LToGal = 0.26417;
+    const LToGal = 1 / galToL;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     
     let result;
-  
+
     if (initUnit === 'gal' || initUnit === 'gallon' || initUnit === 'gallons') {
-      result = initNum * galToL;
-    } else if (initUnit === 'l' || initUnit === 'liter' || initUnit === 'liters') {
-      result = initNum * LToGal;
+        result = initNum * galToL;
+    } else if (initUnit === 'L') {
+        result = initNum * LToGal;
     } else if (initUnit === 'mi' || initUnit === 'mile' || initUnit === 'miles') {
-      result = initNum * miToKm;
+        result = initNum * miToKm;
     } else if (initUnit === 'km' || initUnit === 'kilometer' || initUnit === 'kilometers') {
-      result = initNum / miToKm;
+        result = initNum / miToKm;
     } else if (initUnit === 'lbs' || initUnit === 'pound' || initUnit === 'pounds') {
-      result = initNum * lbsToKg;
+        result = initNum * lbsToKg;
     } else if (initUnit === 'kg' || initUnit === 'kilogram' || initUnit === 'kilograms') {
-      result = initNum / lbsToKg;
+        result = initNum / lbsToKg;
     } else {
-      return result;
+        return undefined;
     }
-  
-    return result.toFixed(5);
-  };
+
+    return parseFloat(result.toFixed(5));
+};
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
     const unitNames = {
       'gal': 'gallons', 'gallon': 'gallons', 'gallons': 'gallons',
-      'l': 'liters', 'liter': 'liters', 'liters': 'liters',
+      "l": "L", "liter": "L", "liters": "L",
       'mi': 'miles', 'mile': 'miles', 'miles': 'miles',
       'km': 'kilometers', 'kilometer': 'kilometers', 'kilometers': 'kilometers',
       'lbs': 'pounds', 'pound': 'pounds', 'pounds': 'pounds',
