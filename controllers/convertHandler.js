@@ -107,6 +107,8 @@ function ConvertHandler() {
       result = initNum * lbsToKg;
     } else if (initUnit === 'kg' || initUnit === 'kilogram' || initUnit === 'kilograms') {
       result = initNum / lbsToKg;
+    } else {
+      return result;
     }
   
     return result.toFixed(5);
